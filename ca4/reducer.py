@@ -18,23 +18,24 @@ for line in sys.stdin:
         tod = 'N'
 # add in day of week
     year, month, day = (int(x) for x in details[2].split('-'))    
-    day = datetime.date(year, month, day).weekday()
-    if day == 0:
-        day = 'Monday'
-    elif day == 1:
-        day = 'Tuesday'
-    elif day == 2:
-        day = 'Wednesday'
-    elif day == 3:
-        day = 'Thursday'
-    elif day == 4:
-        day = 'Friday'
-    elif day == 5:
-        day = 'Saturday'
-    elif day == 6:
-        day = 'Sunday'
+    dow = datetime.date(year, month, day).isocalendar()[2]
+    week = datetime.date(year, month, day).isocalendar()[1]
+    if dow == 1:
+        dow = 'Monday'
+    elif dow == 2:
+        dow = 'Tuesday'
+    elif dow == 3:
+        dow = 'Wednesday'
+    elif dow == 4:
+        dow = 'Thursday'
+    elif dow == 5:
+        dow = 'Friday'
+    elif dow == 6:
+        dow = 'Saturday'
+    elif dow == 7:
+        dow = 'Sunday'
     else:
-        day = 'Unknown'
-    print(line + ',' + day + ',' + tod)
+        dow = 'Unknown'
+    print(line + ',' + dow + ',' + tod + ',' + str(week))
 
     
