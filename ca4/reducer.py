@@ -1,13 +1,7 @@
 import sys
 import datetime
 
-# Now we loop over lines in the system input
-for line in sys.stdin:
-    # Strip the line of whitespace and split into a list
-    line = line.strip()
-    details = line.split(',')
-# add in morning, afternoon, evening, night
-    tod = int(details[3][:2])
+def get_timeofday(tod):
     if tod <= 12 and tod >= 7:
         tod = 'M'
     elif tod <= 16:
@@ -16,10 +10,9 @@ for line in sys.stdin:
         tod = 'E'
     else:
         tod = 'N'
-# add in day of week
-    year, month, day = (int(x) for x in details[2].split('-'))    
-    dow = datetime.date(year, month, day).isocalendar()[2]
-    week = datetime.date(year, month, day).isocalendar()[1]
+    return tod
+
+def get_dayofweek(dow):
     if dow == 1:
         dow = 'Monday'
     elif dow == 2:
@@ -36,6 +29,28 @@ for line in sys.stdin:
         dow = 'Sunday'
     else:
         dow = 'Unknown'
+    return dow
+
+
+# Now we loop over lines in the system input
+for line in sys.stdin:
+    # Strip the line of whitespace and split into a list
+    line = line.strip()
+    details = line.split(',')
+
+    # add in morning, afternoon, evening, night
+    tod = int(details[3][:2])
+    tod = get_timeofday(tod)
+
+    # add in day of week
+    year, month, day = (int(x) for x in details[2].split('-'))    
+    dow = datetime.date(year, month, day).isocalendar()[2]
+    dow = get_dayofweek(dow)
+    
+    # add in week of year
+    week = datetime.date(year, month, day).isocalendar()[1]
+    
+    # output result
     print(line + ',' + dow + ',' + tod + ',' + str(week))
 
     
